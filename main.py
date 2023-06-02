@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, abort, session
 import os
-from functools import wraps
 
 app = Flask(__name__)
 app.secret_key = 'your-secret-key'
@@ -26,16 +25,6 @@ def check_auth(username, password):
 def authenticate_request():
     return abort(401, "Authentication required.")
 
-# Index route with blog creation form
-@app.route('/', methods=['GET', 'POST'])
-def index():
-    if request.method == 'POST':
-        blog_name = request.form['blog_name']
-        create_blog(blog_name)
-        return redirect(url_for('blog', blog_name=blog_name))
-    return render_template('index.html')
-
-# Create the HTML file for the blog
 def create_blog(blog_name):
     blog_html = '''
     <!DOCTYPE html>
@@ -55,6 +44,18 @@ def create_blog(blog_name):
 
     # Set the blog owner in the session
     session['blog_owner'] = session['username']
+
+# Index route with blog creation form
+@app.route('/', methods=['GET', 'POST'])
+def index():
+    if request.method == 'POST':
+        blog_name = request.form['blog_name']
+        if not is_authenticated():
+            return authenticate_request()
+        create_blog(blog_name)
+        return redirect(url_for('blog', blog_name=blog_name))
+    return render_template('index.html')
+
 
 
 # Route to view the blog
@@ -99,7 +100,6 @@ def update_blog(blog_name, new_content):
         file.write(new_content)
     return redirect(url_for('blog', blog_name=blog_name))
 
-# Login route
 # Login route
 @app.route('/login', methods=['GET', 'POST'])
 def login():
