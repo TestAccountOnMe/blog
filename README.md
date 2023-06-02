@@ -1,5 +1,6 @@
-Go to Code > Download Zip to use.
+Go to Code > Download Zip to use. Then once the zip is downloaded, extract it and run main.py
 <br>
+The zip size is 40.0 MB
 <br>
 Description
 <br>
