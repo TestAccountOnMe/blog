@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Blog</title>
+</head>
+<body>
+    <h1>Edit Blog - {{ blog_name }}</h1>
+    <form method="POST" action="/blog/{{ blog_name }}/edit">
+        <textarea name="content" rows="10" cols="50">{{ content }}</textarea><br>
+        <button type="submit">Save</button>
+    </form>
+    <p><a href="/blog/{{ blog_name }}">Back to Blog</a></p>
+</body>
+</html>
